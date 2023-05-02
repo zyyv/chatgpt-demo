@@ -9,8 +9,14 @@ A demo repo based on [OpenAI GPT-3.5 Turbo API.](https://platform.openai.com/doc
 > ⚠️ Notice: Our API Key limit has been exhausted. So the demo site is not available now.
 
 ![chat-logo](https://cdn.staticaly.com/gh/yzh990918/static@master/chat-logo.webp)
- 
 
+## Introducing `Anse`
+
+Looking for multi-chat, image-generation, and more powerful features? Take a look at our newly launched [Anse](https://github.com/anse-app/anse).
+
+More info on https://github.com/ddiu8081/chatgpt-demo/discussions/247.
+
+[![image](https://user-images.githubusercontent.com/1998168/235048408-ca4015f5-4d3c-4c64-9a6c-9069a89cd23a.png)](https://github.com/anse-app/anse)
 
 ## Running Locally
 
@@ -46,12 +52,20 @@ A demo repo based on [OpenAI GPT-3.5 Turbo API.](https://platform.openai.com/doc
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fddiu8081%2Fchatgpt-demo&env=OPENAI_API_KEY&envDescription=OpenAI%20API%20Key&envLink=https%3A%2F%2Fplatform.openai.com%2Faccount%2Fapi-keys)
 
+
+
+> #### 🔒 Need website password?
+>
+> Deploy with the [`SITE_PASSWORD`](#environment-variables)
+>
+> <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fddiu8081%2Fchatgpt-demo&env=OPENAI_API_KEY&env=SITE_PASSWORD&envDescription=OpenAI%20API%20Key&envLink=https%3A%2F%2Fplatform.openai.com%2Faccount%2Fapi-keys" alt="Deploy with Vercel" target="_blank"><img src="https://vercel.com/button" alt="Deploy with Vercel" height=24 style="vertical-align: middle; margin-right: 4px;"></a>
+
 ![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230310/image.4wzfb79qt7k0.webp)
 
 
 ### Deploy With Netlify
 
-[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ddiu8081/chatgpt-demo#OPENAI_API_KEY=&HTTPS_PROXY=&OPENAI_API_BASE_URL=&HEAD_SCRIPTS=&SECRET_KEY=)
+[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ddiu8081/chatgpt-demo#OPENAI_API_KEY=&HTTPS_PROXY=&OPENAI_API_BASE_URL=&HEAD_SCRIPTS=&PUBLIC_SECRET_KEY=&OPENAI_API_MODEL=&SITE_PASSWORD=)
 
 **Step-by-step deployment tutorial:**
 
@@ -72,15 +86,43 @@ A demo repo based on [OpenAI GPT-3.5 Turbo API.](https://platform.openai.com/doc
 
 
 ### Deploy with Docker
+
+Environment variables refer to the documentation below. [Docker Hub address](https://hub.docker.com/r/ddiu8081/chatgpt-demo).
+
+**Direct run**
 ```bash
-# build
-docker-compose build .
-# run
-docker-compose up -d
-# stop
-docker-compose down
+docker run --name=chatgpt-demo -e OPENAI_API_KEY=YOUR_OPEN_API_KEY -p 3000:3000 -d ddiu8081/chatgpt-demo:latest
+```
+`-e` define environment variables in the container.
+
+
+**Docker compose**
+```yml
+version: '3'
+
+services:
+  chatgpt-demo:
+    image: ddiu8081/chatgpt-demo:latest
+    container_name: chatgpt-demo
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      - OPENAI_API_KEY=YOUR_OPEN_API_KEY
+      # - HTTPS_PROXY=YOUR_HTTPS_PROXY
+      # - OPENAI_API_BASE_URL=YOUR_OPENAI_API_BASE_URL
+      # - HEAD_SCRIPTS=YOUR_HEAD_SCRIPTS
+      # - PUBLIC_SECRET_KEY=YOUR_SECRET_KEY
+      # - SITE_PASSWORD=YOUR_SITE_PASSWORD
+      # - OPENAI_API_MODEL=YOUR_OPENAI_API_MODEL
 ```
 
+```bash
+# start
+docker compose up -d
+# down
+docker-compose down
+```
 
 ### Deploy on more servers
 
@@ -96,8 +138,10 @@ You can control the website through environment variables.
 | `HTTPS_PROXY` | Provide proxy for OpenAI API. e.g. `http://127.0.0.1:7890` | `null` |
 | `OPENAI_API_BASE_URL` | Custom base url for OpenAI API. | `https://api.openai.com` |
 | `HEAD_SCRIPTS` | Inject analytics or other scripts before `</head>` of the page | `null` |
-| `SECRET_KEY` | Secret string for the project. Use for generating signatures for API calls | `null` |
-| `SITE_PASSWORD` | Set password for site. If not set, site will be public | `null` |
+| `PUBLIC_SECRET_KEY` | Secret string for the project. Use for generating signatures for API calls | `null` |
+| `SITE_PASSWORD` | Set password for site, support multiple password separated by comma. If not set, site will be public | `null` |
+| `OPENAI_API_MODEL` | ID of the model to use. [List models](https://platform.openai.com/docs/api-reference/models/list) | `gpt-3.5-turbo` |
+
 
 ## Frequently Asked Questions
 
@@ -109,7 +153,13 @@ Q: throw new TypeError(${context} is not a ReadableStream.)
 
 A: The Node version needs to be `v18` or later，reference: https://github.com/ddiu8081/chatgpt-demo/issues/65
 
+Q: Accelerate domestic access without the need for proxy deployment tutorial?
 
+A: You can refer to this tutorial: https://github.com/ddiu8081/chatgpt-demo/discussions/270
+
+Q: `PWA` is not working?
+
+A: Current `PWA` does not support deployment on Netlify, you can choose vercel or node deployment.
 ## Contributing
 
 This project exists thanks to all those who contributed.

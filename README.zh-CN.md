@@ -6,10 +6,12 @@
 
 **🍿 在线预览**: https://chatgpt.ddiu.me
 
+**🏖️ V2 版本(Beta)**: https://v2.chatgpt.ddiu.me
+
 > ⚠️ 注意: 我们的API密钥限制已用尽。所以演示站点现在不可用。
 
 ![chat-logo](https://cdn.staticaly.com/gh/yzh990918/static@master/chat-logo.webp)
- 
+
 ## 本地运行
 
 ### 前置环境
@@ -45,11 +47,19 @@
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fddiu8081%2Fchatgpt-demo&env=OPENAI_API_KEY&envDescription=OpenAI%20API%20Key&envLink=https%3A%2F%2Fplatform.openai.com%2Faccount%2Fapi-keys)
 
+
+
+> ###### 🔒 需要站点密码？
+>
+> 携带[`SITE_PASSWORD`](#environment-variables)进行部署
+>
+> <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fddiu8081%2Fchatgpt-demo&env=OPENAI_API_KEY&env=SITE_PASSWORD&envDescription=OpenAI%20API%20Key&envLink=https%3A%2F%2Fplatform.openai.com%2Faccount%2Fapi-keys" alt="Deploy with Vercel" target="_blank"><img src="https://vercel.com/button" alt="Deploy with Vercel" height=24 style="vertical-align: middle; margin-right: 4px;"></a>
+
 ![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230310/image.4wzfb79qt7k0.webp)
 
 ### 部署在 Netlify
 
-[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ddiu8081/chatgpt-demo#OPENAI_API_KEY=&HTTPS_PROXY=&OPENAI_API_BASE_URL=&HEAD_SCRIPTS=&SECRET_KEY=)
+[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ddiu8081/chatgpt-demo#OPENAI_API_KEY=&HTTPS_PROXY=&OPENAI_API_BASE_URL=&HEAD_SCRIPTS=&PUBLIC_SECRET_KEY=&OPENAI_API_MODEL=&SITE_PASSWORD=)
 
 **分步部署教程：**
 
@@ -68,6 +78,43 @@
 
 ![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230310/image.e0n7c0zaen4.webp)
 
+### 部署在 Docker
+部署之前请确认 `.env` 文件正常配置，环境变量参考下方文档, [Docker Hub address](https://hub.docker.com/r/ddiu8081/chatgpt-demo).
+
+**一键运行**
+```bash
+docker run --name=chatgpt-demo -e OPENAI_API_KEY=YOUR_OPEN_API_KEY -p 3000:3000 -d ddiu8081/chatgpt-demo:latest
+```
+`-e` 在容器中定义环境变量。
+
+**使用 Docker compose**
+```yml
+version: '3'
+
+services:
+  chatgpt-demo:
+    image: ddiu8081/chatgpt-demo:latest
+    container_name: chatgpt-demo
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      - OPENAI_API_KEY=YOUR_OPEN_API_KEY
+      # - HTTPS_PROXY=YOUR_HTTPS_PROXY
+      # - OPENAI_API_BASE_URL=YOUR_OPENAI_API_BASE_URL
+      # - HEAD_SCRIPTS=YOUR_HEAD_SCRIPTS
+      # - PUBLIC_SECRET_KEY=YOUR_SECRET_KEY
+      # - SITE_PASSWORD=YOUR_SITE_PASSWORD
+      # - OPENAI_API_MODEL=YOUR_OPENAI_API_MODEL
+```
+
+```bash
+# start
+docker compose up -d
+# down
+docker-compose down
+```
+
 ### 部署在更多的服务器
 
 请参考官方部署文档：https://docs.astro.build/en/guides/deploy
@@ -82,8 +129,9 @@
 | `HTTPS_PROXY` | 为 OpenAI API 提供代理. e.g. `http://127.0.0.1:7890` | `null` |
 | `OPENAI_API_BASE_URL` | 请求 OpenAI API 的自定义 Base URL. | `https://api.openai.com` |
 | `HEAD_SCRIPTS` | 在页面的 `</head>` 之前注入分析或其他脚本 | `null` |
-| `SECRET_KEY` | 项目的秘密字符串。用于生成 API 调用的签名 | `null` |
-| `SITE_PASSWORD` | 为网站设置密码。如果未设置，则该网站将是公开的 | `null` |
+| `PUBLIC_SECRET_KEY` | 项目的秘密字符串。用于生成 API 调用的签名 | `null` |
+| `SITE_PASSWORD` | 为网站设置密码，支持使用英文逗号创建多个密码。如果未设置，则该网站将是公开的 | `null` |
+| `OPENAI_API_MODEL` | 使用的 OpenAI 模型. [模型列表](https://platform.openai.com/docs/api-reference/models/list) | `gpt-3.5-turbo` |
 
 ## 常见问题
 
@@ -94,6 +142,14 @@ A: 配置环境变量 `HTTPS_PROXY`，参考: https://github.com/ddiu8081/chatgp
 Q: throw new TypeError(${context} is not a ReadableStream.)
 
 A: Node 版本需要在 `v18` 或者更高，参考: https://github.com/ddiu8081/chatgpt-demo/issues/65
+
+Q: Accelerate domestic access without the need for proxy deployment tutorial?
+
+A: 你可以参考此教程: https://github.com/ddiu8081/chatgpt-demo/discussions/270
+
+Q: `PWA` 不工作？
+
+A: 当前的 PWA 不支持 Netlify 部署，您可以选择 vercel 或 node 部署。
 
 ## 参与贡献
 
