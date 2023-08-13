@@ -23,7 +23,7 @@ More info on https://github.com/ddiu8081/chatgpt-demo/discussions/247.
 ## Running Locally
 
 ### Pre environment
-1. **Node**: Check that both your development environment and deployment environment are using `Node v18` or later. You can use [nvm](https://github.com/nvm-sh/nvm) to manage multiple `node` versions locally。
+1. **Node**: Check that both your development environment and deployment environment are using `Node v18` or later. You can use [nvm](https://github.com/nvm-sh/nvm) to manage multiple `node` versions locally.
    ```bash
     node -v
    ```
@@ -71,7 +71,7 @@ More info on https://github.com/ddiu8081/chatgpt-demo/discussions/247.
 
 **Step-by-step deployment tutorial:**
 
-1. [Fork](https://github.com/ddiu8081/chatgpt-demo/fork) this project，Go to [https://app.netlify.com/start](https://app.netlify.com/start) new Site, select the project you `forked` done, and connect it with your `GitHub` account.
+1. [Fork](https://github.com/ddiu8081/chatgpt-demo/fork) this project, Go to [https://app.netlify.com/start](https://app.netlify.com/start) new Site, select the project you `forked` done, and connect it with your `GitHub` account.
 
 ![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230310/image.3nlt4hgzb16o.webp)
 
@@ -82,7 +82,7 @@ More info on https://github.com/ddiu8081/chatgpt-demo/discussions/247.
 
 ![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230311/image.gfs9lx8c854.webp)
 
-3. Select the default build command and output directory, Click the `Deploy Site` button to start deploying the site。
+3. Select the default build command and output directory, Click the `Deploy Site` button to start deploying the site.
 
 ![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230311/image.4jky9e1wbojk.webp)
 
@@ -126,9 +126,43 @@ docker compose up -d
 docker-compose down
 ```
 
+### Deploy with Sealos
+
+ 1.Register a Sealos account for free [sealos cloud](https://cloud.sealos.io)
+
+2.Click  `App Launchpad` button
+
+![App Launchpad](https://cdn.jsdelivr.net/gh/yzh990918/static@master/20230609/install-on-sealos-1.34i8gi80j268.webp)
+
+3.Click `Create Application` button
+
+![Create Application](https://cdn.jsdelivr.net/gh/yzh990918/static@master/20230609/install-on-sealos-2.4t8q5px18eps.webp)
+
+4.Just fill in according to the following figure, and click on it after filling out `Deploy Application` button
+
+![Create Application](https://cdn.jsdelivr.net/gh/yzh990918/static@master/20230609/install-on-sealos-3.5x5exqk0o8lc.webp)
+
+```shell
+App Name: chatgpt-demo
+Image Name: ddiu8081/chatgpt-demo:latest
+CPU: 0.5Core
+Memory: 1G
+Container Ports: 3000
+Accessible to the Public: On
+Environment: OPENAI_API_KEY=YOUR_OPEN_API_KEY
+```
+
+5.Obtain the access link and click directly to access it. If you need to bind your own domain name, you can also fill in your own domain name in `Custom domain` and follow the prompts to configure the domain name CNAME
+
+![Create Application](https://cdn.jsdelivr.net/gh/yzh990918/static@master/20230609/install-on-sealos-4.4esqkqu70z9c.webp)
+
+6.Wait for one to two minutes and open this link
+
+![Open Link](https://cdn.jsdelivr.net/gh/yzh990918/static@master/20230609/install-on-sealos-5.5cgfpee3zeyo.webp)
+
 ### Deploy on more servers
 
-Please refer to the official deployment documentation：https://docs.astro.build/en/guides/deploy
+Please refer to the official deployment documentation: https://docs.astro.build/en/guides/deploy
 
 ## Environment Variables
 
@@ -144,6 +178,12 @@ You can control the website through environment variables.
 | `SITE_PASSWORD` | Set password for site, support multiple password separated by comma. If not set, site will be public | `null` |
 | `OPENAI_API_MODEL` | ID of the model to use. [List models](https://platform.openai.com/docs/api-reference/models/list) | `gpt-3.5-turbo` |
 
+## Enable Automatic Updates
+
+After forking the project, you need to manually enable Workflows and Upstream Sync Action on the Actions page of the forked project. Once enabled, automatic updates will be scheduled every day:
+
+![](https://cdn.staticaly.com/gh/yzh990918/static@master/20230518/image.2hhnrsrd2t1c.webp)
+
 
 ## Frequently Asked Questions
 
@@ -153,15 +193,12 @@ A: Configure environment variables `HTTPS_PROXY`，reference: https://github.com
 
 Q: throw new TypeError(${context} is not a ReadableStream.)
 
-A: The Node version needs to be `v18` or later，reference: https://github.com/ddiu8081/chatgpt-demo/issues/65
+A: The Node version needs to be `v18` or later, reference: https://github.com/ddiu8081/chatgpt-demo/issues/65
 
 Q: Accelerate domestic access without the need for proxy deployment tutorial?
 
 A: You can refer to this tutorial: https://github.com/ddiu8081/chatgpt-demo/discussions/270
 
-Q: `PWA` is not working?
-
-A: Current `PWA` does not support deployment on Netlify, you can choose vercel or node deployment.
 ## Contributing
 
 This project exists thanks to all those who contributed.
